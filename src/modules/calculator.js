@@ -10,14 +10,12 @@ function calculator() {
   time.forEach((elem) => {
     if (elem.checked) {
       time = elem.value;
-      console.log(time);
     }
   });
 
   club.forEach((elem) => {
     if (elem.checked) {
       club = elem.value;
-      console.log(club);
     }
   });
 
