@@ -1,41 +1,73 @@
 function calculator() {
   const priceTotal = document.getElementById('price-total'),
-    calcBlock = document.getElementById('card_order'),
-    baseCostMoscow = 5000,
-    baseCostSchelkovo = 4000;
+    calcBlock = document.getElementById('card_order');
 
-  let months = 1,
-    discount = 1,
-    baseCost = baseCostMoscow,
-    price = baseCost * months,
-    promocode = document.getElementById('promocode');
+  let promocode = document.getElementById('promocode'),
+    club = document.querySelectorAll('.club > input'),
+		time = document.querySelectorAll('.time > input'),
+		discount;
 
-  priceTotal.innerHTML = price;
+  time.forEach((elem) => {
+    if (elem.checked) {
+      time = elem.value;
+      console.log(time);
+    }
+  });
+
+  club.forEach((elem) => {
+    if (elem.checked) {
+      club = elem.value;
+      console.log(club);
+    }
+  });
+
+  const getTotalCost = (club, time) => {
+    if (club === 'mozaika') {
+      switch (time) {
+        case '1':
+          return 1999;
+        case '6':
+          return 9900;
+        case '9':
+          return 13900;
+        case '12':
+          return 19900;
+      }
+    } else if (club === 'schelkovo') {
+      switch (time) {
+        case '1':
+          return 2999;
+        case '6':
+          return 14990;
+        case '9':
+          return 21990;
+        case '12':
+          return 24990;
+      }
+    }
+  };
+
+  priceTotal.innerHTML = getTotalCost(club, time);
 
   calcBlock.addEventListener('change', (event) => {
     const target = event.target;
 
-		if (target.getAttribute('name') == 'card-type') {
-      months = target.getAttribute('value');
+    if (target.getAttribute('name') == 'card-type') {
+      time = target.value;
     }
 
     if (target.getAttribute('name') == 'club-name') {
-      if (target.getAttribute('value') == 'mozaika') {
-        baseCost = baseCostMoscow;
-      } else {
-        baseCost = baseCostSchelkovo;
-      }
+      club = target.value;
     }
 
+    // Promocode
     if (promocode.value === 'ТЕЛО2019') {
       discount = 0.7;
     } else {
       discount = 1;
     }
 
-    price = baseCost * months * discount;
-
-    priceTotal.innerHTML = price;
+    priceTotal.innerHTML = Math.round(getTotalCost(club, time) * discount);
   });
 }
 
