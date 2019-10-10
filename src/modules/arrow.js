@@ -1,35 +1,29 @@
 function arrow() {
-	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-	  anchor.addEventListener('click', function (e) {
-			console.log(e.target);
-			if (e.target.closest('a').getAttribute('href').length < 2) {
-				return;
-			}
-	    e.preventDefault();
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      if (e.target.closest('a').getAttribute('href').length < 2) {
+        return;
+      }
+      e.preventDefault();
 
-	    document.querySelector(this.getAttribute('href')).scrollIntoView({
-	      behavior: 'smooth'
-	    });
-	  });
-	});
-	
-	const elem = document.getElementById('totop');
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
 
-	getCoords(elem);
+  const elem = document.getElementById('clubs'),
+    arrow = document.getElementById('totop');
+  arrow.style.visibility = 'hidden';
 
-
-	function getCoords(elem) { // кроме IE8-
-	  var box = elem.getBoundingClientRect();
-		console.log(box.top);
-		console.log(pageYOffset);
-	  // return {
-	    const top = box.top + box.pageYOffset;
-			const left = box.left + box.pageXOffset;
-			
-			console.log(top, left);
-	  // };
-
-	}
+  document.addEventListener('scroll', () => {
+    var top = elem.getBoundingClientRect().top + document.body.scrollTop;
+    if (top > 0) {
+      arrow.style.visibility = 'hidden';
+    } else {
+      arrow.style.visibility = 'visible';
+    }
+  });
 }
 
 export default arrow;
